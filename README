@@ -1,0 +1,30 @@
+NAME
+
+Date::Day - Perl extension for converting a date to its respective day.
+
+SYNOPSIS
+
+  use Date::Day;
+
+  ## The following will print the weekday corresponding 
+  ## to the date March 11, 1998.  
+
+  $result = &day(03,11,1998);
+  print "$result";
+
+DESCRIPTION
+
+After noticing the complexity of some modules for determining the day of a 
+specific date, I decided to write this module. It is by far the shortest 
+module of its kind performing the above task. This module exports a 
+subroutine called day() which takes as arguments numerical month, day, and 
+year. See Synopsis for example. As far as range of usage, the day() 
+function will return a proper day for all dates starting from year 0 
+through infinity. There are no restrictions. If you pass bad data to the 
+function, a day will still be returned, it just won't have any meaning. So 
+March 45, 2001 will return a day, just one with no meaning. So make sure 
+you pass real dates.
+
+AUTHOR
+
+John Von Essen, john@essenz.com
