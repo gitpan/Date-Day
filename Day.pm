@@ -9,12 +9,14 @@ require Exporter;
 @EXPORT = qw(
 &day	
 );
-$VERSION = '1.01';
+$VERSION = '1.02';
 
 sub day 
 {
 
-my ($m, $d, $y) = shift;
+my $m = @_[0];
+my $d = @_[1];
+my $y = @_[2];
 
 my %month=(1,0,2,3,3,2,4,5,5,0,6,3,7,5,8,1,9,4,10,6,11,2,12,4,);
 my %weekday=(0,'SUN',1,'MON',2,'TUE',3,'WED',4,'THU',5,'FRI',6,'SAT',);
@@ -23,7 +25,7 @@ $m = int($m);
 $d = int($d);
 $y = int($y);
 
-my $wday = ($d+$month{$m}+$y+(int($y/4))-(int($y/100))+(int($y/400)));
+my $wday = (($d+$month{$m}+$y+(int($y/4))-(int($y/100))+(int($y/400)))%7);
 return $weekday{$wday};
 
 }

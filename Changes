@@ -1,5 +1,8 @@
 Revision history for Perl extension Date::Day.
 
+1.02  Thu May 30 17:43:25 2002
+	- Fixed a tiny bug which I missed in the original version.
+         
 1.01  Sun Mar 24 11:14:57 2002
-	- original version;
+	- Original version.
 
