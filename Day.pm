@@ -9,7 +9,7 @@ require Exporter;
 @EXPORT = qw(
 &day	
 );
-$VERSION = '1.02';
+$VERSION = '1.03';
 
 sub day 
 {
@@ -59,6 +59,74 @@ through infinity. There are no restrictions. If you pass bad data to the
 function, a day will still be returned, it just won't have any meaning. So 
 March 45, 2001 will return a day, just one with no meaning. So make sure 
 you pass real dates.
+
+After initial release of this module, I decided to elaborate on the 
+mathematical foundations for the algorithm used. Most other day of week 
+modules use the dooms day algorithm. Date::Day uses a single line formula.
+
+Not getting into too much detail, we take the fact that March 1, 0000 fell 
+on a Wednesday. Knowing this, we can determine the day of week March 1 
+will fall on in any given year y > 0. That is:
+
+	3 + y + [y/4] - [y/100] + [y/400] mod 7 
+
+[y/4] represents the integer part of (year) divided by (4). Weekdays 
+correspond to the following numbers:
+
+Sun Mon Tue Wed Thu Fri Sat
+0   1   2   3   4   5   6
+
+So for example, look at March 1, 1994:
+
+	3 + 1994 + [1994/4] - [1994/100] + [1994/400] mod 7 = 2 mod 7
+	
+And so March 1, 1994 is a Tuesday. So now we can find the day of week for 
+March 1 in any given year. How do we find the day corresponding to 
+a date other than March 1? Since March 1, 0000 has number 3 (Wednesday), 
+than April 1, 0000 has number 3 + 31 mod 7 = 6 mod 7 since March has 31 
+days. We can do the same thing for May, June and so on. Thus giving the 
+following table:
+
+(Day of week for first day in given month in year 0000)
+
+Mar 1 Apr 1 May 1 Jun 1 Jul 1 Aug 1 Sep 1 Oct 1 Nov 1 Dec 1 Jan 1 Feb 1
+3     6     1     4     6     2     5     0     3     5     1     4
+
+And we treat March as month 1, April as month 2, and so on. We denote 
+these numbers by 1 + j(m), where j(m), for m=1,2,...,12 (with m=1 as 
+March, m=2 as April, and so on), is defined by:
+
+j(m):2,5,0,3,5,1,4,6,2,4,0,3.
+
+So we refine our table:
+
+Month   1 2 3 4 5 6 7 8 9 10 11 12
+Value   0 3 2 5 0 3 5 1 4 6  2  4
+
+The above table is very important in our final formula. So for example, 
+the month June is numerical 6, and 6 goes to value 3. 3 is then used in 
+our final formula.
+
+With all the above data, it follows that month m, day 1, year y, has day 
+of week number:
+
+	1 + j(m) + y + [y/4] - [y/100] + [y/400] mod 7
+
+And to get a formula that handles any given day, we use the formula:
+
+	d + j(m) + y + [y/4] - [y/100] + [y/400] mod 7       (***)
+
+So for example, we want to find the day of week corresponding to April 8, 
+2002. If March is month 1, then April is month 2, hence m=2. So j(2)=5. 
+Thus we have:
+
+	8 + 5 + 2002 + [2002/4] - [2002/100] + [2002/400] mod 7
+
+	which is, 1 mod 7. So 4/8/2002 is a Monday.
+
+So when you look at the code portion of Day.pm you see only two important 
+lines of code. One line is for the associative array that implements j(m). 
+The other line is for implementing formula (***). Thats it.
 
 =head1 AUTHOR
 
