@@ -1,5 +1,8 @@
 Revision history for Perl extension Date::Day.
 
+1.04  Sat Dec 07 20:34:01 2002
+	- Adding error checking.
+
 1.03  Sat Jun 08 23:45:12 2002
 	- Decided to add description of mathematical foundation for
 	  day of week algorithm.

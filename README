@@ -6,8 +6,9 @@ SYNOPSIS
 
   use Date::Day;
 
-  ## The following will print the weekday corresponding 
-  ## to the date March 11, 1998.  
+  ## The following will print the weekday corresponding to the
+  ## date March 11, 1998. Output is a three character abbreviation. 
+  ## If there is an input error, ERR is returned.
 
   $result = &day(03,11,1998);
   print "$result";
@@ -44,7 +45,7 @@ Sun Mon Tue Wed Thu Fri Sat
 So for example, look at March 1, 1994:
 
 	3 + 1994 + [1994/4] - [1994/100] + [1994/400] mod 7 = 2 mod 7
-	
+
 And so March 1, 1994 is a Tuesday. So now we can find the day of week for 
 March 1 in any given year. How do we find the day corresponding to 
 a date other than March 1? Since March 1, 0000 has number 3 (Wednesday), 

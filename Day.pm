@@ -9,7 +9,7 @@ require Exporter;
 @EXPORT = qw(
 &day	
 );
-$VERSION = '1.03';
+$VERSION = '1.04';
 
 sub day 
 {
@@ -18,8 +18,15 @@ my $m = @_[0];
 my $d = @_[1];
 my $y = @_[2];
 
+if($m !~ /[\d]{1,2}/ || $m > 12  || $m < 1 ){ return "ERR"; }
+if($d !~ /[\d]{1,2}/ || $d > 31  || $d < 1 ){ return "ERR"; }
+if($y !~ /[\d]+/ || $y < 1 ){ return "ERR"; }
+
 my %month=(1,0,2,3,3,2,4,5,5,0,6,3,7,5,8,1,9,4,10,6,11,2,12,4,);
 my %weekday=(0,'SUN',1,'MON',2,'TUE',3,'WED',4,'THU',5,'FRI',6,'SAT',);
+
+if($m == 1){ $y--; }
+if($m == 2){ $y--; }
 
 $m = int($m);
 $d = int($d);
@@ -79,7 +86,7 @@ Sun Mon Tue Wed Thu Fri Sat
 So for example, look at March 1, 1994:
 
 	3 + 1994 + [1994/4] - [1994/100] + [1994/400] mod 7 = 2 mod 7
-	
+
 And so March 1, 1994 is a Tuesday. So now we can find the day of week for 
 March 1 in any given year. How do we find the day corresponding to 
 a date other than March 1? Since March 1, 0000 has number 3 (Wednesday), 
